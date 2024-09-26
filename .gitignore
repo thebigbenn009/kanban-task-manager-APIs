@@ -1,0 +1,39 @@
+# Dependency directories
+node_modules/
+
+# Environment configuration files
+.env
+.env.local
+.env.*.local
+config.dev.env
+config.env
+config.prod.env
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE / Editor directories and files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# Build output
+dist/
+build/
+
+# Temporary files
+*.log
+*.tmp
+
+# Optional: Yarn integrity file
+.yarn-integrity
+
+# Optional: ESLint cache
+.eslintcache

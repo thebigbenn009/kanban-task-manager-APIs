@@ -1,0 +1,6 @@
+{
+  "watch": ["src"],
+  "ext": "ts",
+  "ignore": [],
+  "exec": "tsc && cross-env NODE_ENV=development node -r dotenv/config dist/server.js dotenv_config_path=./config.dev.env"
+}

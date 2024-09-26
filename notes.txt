@@ -1,0 +1,18 @@
+create board
+create columns
+create create tasks
+
+
+edit board 
+edit columns
+edit tasks
+edit subtasks
+
+
+delete board
+delete columns 
+delete tasks
+delete subtasks
+
+create users
+authentication, authorization, security 

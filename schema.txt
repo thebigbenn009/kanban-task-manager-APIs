@@ -1,0 +1,94 @@
+import mongoose, { Document, Schema, Model } from "mongoose";
+
+// Define Subtask Interface
+export interface Subtask {
+  title: string;
+  isCompleted: boolean;
+}
+
+// Define Task Interface
+export interface Task {
+  title: string;
+  description: string;
+  status: string;
+  subtasks: Subtask[];
+}
+
+// Define Column Interface
+export interface Column {
+  name: string;
+  tasks: Task[];
+}
+
+// Define Board Document Interface
+export interface BoardDocument extends Document {
+  name: string;
+  userId: mongoose.Types.ObjectId; // Add userId field
+  columns: Column[];
+}
+
+// Subtask schema
+const subtaskSchema = new Schema<Subtask>({
+  title: { type: String, required: true },
+  isCompleted: { type: Boolean, required: true },
+});
+
+// Task Schema
+const taskSchema = new Schema<Task>({
+  title: { type: String, required: true },
+  description: { type: String, default: "" },
+  status: { type: String, default: "", required: true },
+  subtasks: [subtaskSchema],
+});
+
+// Column Schema
+const columnSchema = new Schema<Column>({
+  name: { type: String, required: true },
+  tasks: [taskSchema],
+});
+
+// Board Schema
+const boardSchema = new Schema<BoardDocument>({
+  name: { type: String, required: true },
+  userId: { type: Schema.Types.ObjectId, ref: 'User', required: true }, // Add userId field
+  columns: [columnSchema],
+});
+
+// Add compound unique index for board name and userId
+boardSchema.index({ name: 1, userId: 1 }, { unique: true });
+
+// Add unique validator plugin
+boardSchema.plugin(require('mongoose-unique-validator'));
+
+// Add pre-save hook to ensure unique column names within a board
+boardSchema.pre('save', function(next) {
+  const columnNames = new Set();
+  for (const column of this.columns) {
+    if (columnNames.has(column.name)) {
+      return next(new Error('Column names must be unique within a board'));
+    }
+    columnNames.add(column.name);
+
+    const taskNames = new Set();
+    for (const task of column.tasks) {
+      if (taskNames.has(task.title)) {
+        return next(new Error('Task names must be unique within a column'));
+      }
+      taskNames.add(task.title);
+
+      const subtaskNames = new Set();
+      for (const subtask of task.subtasks) {
+        if (subtaskNames.has(subtask.title)) {
+          return next(new Error('Subtask names must be unique within a task'));
+        }
+        subtaskNames.add(subtask.title);
+      }
+    }
+  }
+  next();
+});
+
+export const Board: Model<BoardDocument> = mongoose.model<BoardDocument>(
+  "Board",
+  boardSchema
+);

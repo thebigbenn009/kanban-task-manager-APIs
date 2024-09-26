@@ -1,0 +1,32 @@
+{
+  "name": "express-natours",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/server.js",
+    "start:dev": "cross-env NODE_ENV=development node -r dotenv/config dist/server.js dotenv_config_path=./config.dev.env",
+    "start:prod": "cross-env NODE_ENV=production node -r dotenv/config dist/server.js dotenv_config_path=./config.prod.env",
+    "dev": "cross-env NODE_ENV=development nodemon",
+    "prod": "npm run build && npm run start:prod",
+    "import-data": "node dist/import-dev-data.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/express": "^4.17.21",
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^22.5.4",
+    "dotenv": "^16.4.5",
+    "express": "^4.20.0",
+    "mongoose": "^8.6.1",
+    "mongoose-unique-validator": "^5.0.1"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "nodemon": "^3.1.4",
+    "typescript": "^5.6.2"
+  }
+}
