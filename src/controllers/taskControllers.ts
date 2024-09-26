@@ -55,7 +55,7 @@ export const createTask = asyncHandler(
     const { boardId, columnId } = req.params;
     const board = await Board.findById(boardId);
 
-    if (!board) return next(new AppError("Board does not exist", 404));
+    if (!board) return next(new AppError("Board does nott exist", 404));
     const column = board?.columns.find(
       (col) => col._id!.toString() === columnId
     );
