@@ -60,7 +60,7 @@ export const createTask = asyncHandler(
       (col) => col._id!.toString() === columnId
     );
     if (!column) {
-      return next(new AppError("Column does not exist", 404));
+      return next(new AppError("Column does nott exist", 404));
     }
     const newTask = {
       title,
